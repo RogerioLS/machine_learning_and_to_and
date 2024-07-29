@@ -14,6 +14,7 @@ from .c_feature_engineering import FeatureEngineer
 from .d_feature_selection import FeatureSelection
 from .e_train_model import ModelTrainer
 from .f_generate_evaluation_metrics import ModelEvaluator
+from .g_unit_test import TestDataFetcher, TestDataCleaner, TestFeatureEngineer, TestFeatureSelector, TestModelTrainer, TestModelEvaluator, TestPipeline
 
 __all__ = [
     'pd',
@@ -28,5 +29,12 @@ __all__ = [
     'FeatureEngineer',
     'FeatureSelection',
     'ModelTrainer',
-    'ModelEvaluator'
+    'ModelEvaluator',
+    'TestDataFetcher',
+    'TestDataCleaner',
+    'TestFeatureEngineer',
+    'TestFeatureSelector',
+    'TestModelTrainer',
+    'TestModelEvaluator',
+    'TestPipeline'
 ]

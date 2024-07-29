@@ -20,3 +20,6 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+#Model
+# Ignorar a pasta model_trained
+regression_problems/predict_real_estate_prices_in_california/model_trained/
