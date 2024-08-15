@@ -38,11 +38,11 @@ def main():
     if st.button("Predict"):
         # Convert dictionary to DataFrame
         input_df = pd.DataFrame([input_data])
-        
+
         # Check the shape of the input dataframe
         st.write("Input DataFrame:")
         st.write(input_df)
-        
+
         # Predict using the loaded model
         try:
             prediction = model.predict(input_df)
