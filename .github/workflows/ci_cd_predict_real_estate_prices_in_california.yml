@@ -34,11 +34,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
-
-    - name: Print working directory
-      run: |
         pwd
+        ls -la
+        cd machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
         pip install -r docker/requirements.txt
 
     - name: Build Docker image
