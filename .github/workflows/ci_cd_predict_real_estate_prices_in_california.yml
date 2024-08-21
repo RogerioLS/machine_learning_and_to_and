@@ -18,13 +18,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-
     - name: Install dependencies
       run: |
-        pwd
-        cd ~/regression_problems/predict_real_estate_prices_in_california
         ls
