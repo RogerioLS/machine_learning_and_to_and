@@ -26,6 +26,7 @@ def main():
 
 	evaluator = ModelEvaluator(model, X_val, y_val)
 	mae, r2 = evaluator.evaluate_model()
+	evaluator.save_model()
 
 	print(f'MAE: {mae}, R²: {r2}')
 
@@ -33,6 +34,6 @@ def run_tests():
 	unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromModule(__import__('sources.g_unit_test')))
 
 if __name__ == "__main__":
-	run_tests()
+	#run_tests()
 	print("Model:")
 	main()

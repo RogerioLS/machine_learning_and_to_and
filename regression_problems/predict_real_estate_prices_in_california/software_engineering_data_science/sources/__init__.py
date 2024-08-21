@@ -1,5 +1,7 @@
 # sources/__init__.py
 
+import os
+import pickle
 import pandas as pd
 from sklearn.datasets import fetch_california_housing
 from sklearn.preprocessing import StandardScaler
