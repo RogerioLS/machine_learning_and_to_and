@@ -1,18 +1,50 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california/**'
+  schedule:
+    - cron: '00 12 */15 * *'
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install Docker Engine
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+    - name: Build and Push Docker Image
+      run: |
+        cd machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
+        pip install -r docker/requirements.txt
+        docker build -t real_estate_app .
+        echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+        docker tag real_estate_app:latest ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
+
+    - name: Deploy to production
+      run: |
+        ssh user@your-server "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest"
