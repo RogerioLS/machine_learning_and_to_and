@@ -38,9 +38,11 @@ jobs:
         ls
         pip install -r docker/requirements.txt
 
+    - name: Buil model
+      run: python software_engineering_data_science/main.py
+
     - name: Build Docker image
       run: |
-        cd regression_problems/predict_real_estate_prices_in_california
         docker build -t real_estate_app .
 
     - name: Push to Docker Hub
