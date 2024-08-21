@@ -40,10 +40,10 @@ jobs:
 
     - name: Buil model
       run: |
+        ls
         cd software_engineering_data_science
         python main.py
         cd ..
-        ls
 
     - name: Build Docker image
       run: |
