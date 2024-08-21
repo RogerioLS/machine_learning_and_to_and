@@ -18,6 +18,37 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install Docker Engine
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
     - name: Install dependencies
       run: |
+        cd regression_problems/predict_real_estate_prices_in_california
         ls
+        pip install -r docker/requirements.txt
+
+    - name: Build Docker image
+      run: |
+        cd regression_problems/predict_real_estate_prices_in_california
+        docker build -t real_estate_app .
+
+    - name: Push to Docker Hub
+      run: |
+        echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+        docker tag real_estate_app:latest ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
+
+    - name: Deploy to production
+      run: |
+        ssh user@your-server "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest"
