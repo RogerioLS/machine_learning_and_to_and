@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california/**'
   pull_request:
     branches:
       - main
-    paths:
-      - 'machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california/**'
   schedule:
     - cron: '00 12 */15 * *'
 
@@ -36,11 +32,22 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-    - name: Build and Push Docker Image
+    - name: Install dependencies
       run: |
         cd machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
+
+    - name: Print working directory
+      run: |
+        pwd
         pip install -r docker/requirements.txt
+
+    - name: Build Docker image
+      run: |
+        cd machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
         docker build -t real_estate_app .
+
+    - name: Push to Docker Hub
+      run: |
         echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
         docker tag real_estate_app:latest ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
