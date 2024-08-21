@@ -35,12 +35,12 @@ jobs:
     - name: Install dependencies
       run: |
         pwd
-        cd ~/machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
+        cd ~/regression_problems/predict_real_estate_prices_in_california
         pip install -r docker/requirements.txt
 
     - name: Build Docker image
       run: |
-        cd ~/machine_learning_and_to_and/regression_problems/predict_real_estate_prices_in_california
+        cd ~/regression_problems/predict_real_estate_prices_in_california
         docker build -t real_estate_app .
 
     - name: Push to Docker Hub
