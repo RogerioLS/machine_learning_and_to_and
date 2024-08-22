@@ -1,5 +1,4 @@
 
-
 Criar um projeto de machine learning de ponta a ponta envolve várias etapas, desde a definição do problema até a implantação e monitoramento. Abaixo está uma lista abrangente das possíveis etapas e tarefas a serem consideradas:
 
 #### 1. Definição do Problema
