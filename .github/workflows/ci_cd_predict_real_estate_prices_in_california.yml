@@ -58,7 +58,3 @@ jobs:
         echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
         docker tag real_estate_app:latest ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest
-
-    - name: Deploy to production
-      run: |
-        ssh user@my-server.com "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest"
