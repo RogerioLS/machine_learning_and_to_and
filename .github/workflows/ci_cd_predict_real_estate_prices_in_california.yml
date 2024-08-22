@@ -61,6 +61,4 @@ jobs:
 
     - name: Deploy to production
       run: |
-        ls
-        cd regression_problems/predict_real_estate_prices_in_california
-        ssh user@your-server "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest"
+        ssh user@my-server.com "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/real_estate_app:latest"
