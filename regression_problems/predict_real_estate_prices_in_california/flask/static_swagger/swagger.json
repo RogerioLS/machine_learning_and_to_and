@@ -1,0 +1,82 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "API para prever preços de imóveis",
+      "version": "1.0.0",
+      "title": "Real Estate Price Prediction API"
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/predict": {
+        "post": {
+          "tags": ["prediction"],
+          "summary": "Obter previsão de preço",
+          "description": "Envia dados de entrada e obtém a previsão de preço do imóvel.",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Dados de entrada",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/InputData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Previsão obtida com sucesso",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prediction": {
+                    "type": "number",
+                    "example": 150000.0
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Erro de validação de entrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "InputData": {
+        "type": "object",
+        "required": [
+          "MedInc",
+          "HouseAge",
+          "AveRooms",
+          "AveBedrms",
+          "Population",
+          "AveOccup",
+          "RoomDensity",
+          "Latitude",
+          "Longitude"
+        ],
+        "properties": {
+          "MedInc": {"type": "number", "example": 8.3252},
+          "HouseAge": {"type": "number", "example": 41.0},
+          "AveRooms": {"type": "number", "example": 6.9841},
+          "AveBedrms": {"type": "number", "example": 1.0238},
+          "Population": {"type": "integer", "example": 322},
+          "AveOccup": {"type": "number", "example": 2.5556},
+          "Latitude": {"type": "number", "example": 37.88},
+          "Longitude": {"type": "number", "example": -122.23},
+          "RoomDensity": {"type": "number", "example": -122.23}
+        }
+      }
+    }
+}
